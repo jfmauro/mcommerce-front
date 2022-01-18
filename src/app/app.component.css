@@ -1,0 +1,15 @@
+.main-component{
+  margin-top:25px;
+  margin-left:25px;
+}
+
+
+.page-flexbox-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
