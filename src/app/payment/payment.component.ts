@@ -9,7 +9,7 @@ import {Payment} from "../model/payment";
 })
 export class PaymentComponent implements OnInit {
 
-  errorMessage: string;
+  message: string;
 
   constructor(private paymentService: PaymentService) { }
 
@@ -18,8 +18,9 @@ export class PaymentComponent implements OnInit {
 
 
   confirm(){
-      const payment = this.createPayment();
+      const payment = PaymentComponent.createPayment();
       this.paymentService.create(payment).subscribe(res => {
+        this.message = "payment is saved !";
         alert("payment is saved !");
       }, error => {
         console.log(error);
@@ -27,17 +28,17 @@ export class PaymentComponent implements OnInit {
         //this.isError = true;
         if (error.status === 404) {
           //alert("404");
-          this.errorMessage = error.error + " " + error.status;
+          this.message = error.error + " " + error.status;
         } else if (error.status === 409) {
-          this.errorMessage =  error.error + " " + error.status;
+          this.message =  error.error.message + " " + error.status;
           //alert("409");
         } else {
           //alert("other error");
           //this.errorMessage = error.statusText;
           if (error.status === 0){
-            this.errorMessage = " the server is down";
+            this.message = " the server is down";
           }else if (error.status === 500){
-            this.errorMessage = error.error.error + " - " + error.error.message  + " - " +  error.error.status;
+            this.message = error.error.error + " - " + error.error.message  + " - " +  error.error.status;
           }
         }
 
@@ -46,9 +47,9 @@ export class PaymentComponent implements OnInit {
 
   }
 
-  private createPayment() {
+  private static createPayment() {
     const payment = new Payment();
-    payment.idCommande = 3;
+    payment.idCommande = 2;
     payment.montant = 100;
     payment.numeroCarte = 723456;
     return payment;
